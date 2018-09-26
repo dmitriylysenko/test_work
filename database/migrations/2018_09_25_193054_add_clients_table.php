@@ -19,6 +19,7 @@ class AddClientsTable extends Migration
             $table->string('last_name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->timestamps();
         });
     }
 
