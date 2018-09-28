@@ -3,7 +3,9 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Response;
 
 class Handler extends ExceptionHandler
 {
@@ -46,6 +48,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        return parent::render($request, $exception);
+      if ($exception instanceof QueryException && $request->expectsJson()) {
+        return response()->json([
+          'message' => 'Bad Request'
+        ], Response::HTTP_BAD_REQUEST);
+      }
+      return parent::render($request, $exception);
     }
 }

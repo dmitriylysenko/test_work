@@ -10,14 +10,30 @@ namespace App\Http\Controllers\Api;
 
 
 use App\Client;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
-class ClientsController
+class ClientsController extends Controller
 {
-  public function create()
+  public function create(Request $request)
   {
-    
+    $this->validate($request, [
+
+      'first_name' => 'string|max:255',
+      'last_name'  => 'string|max:255',
+      'email'      => 'string|email',
+      'password'   => 'string|required'
+    ]);
+
+
+    $client = new Client($request->all());
+
+    $client->saveOrFail();
+
+    return response()->json([$client], Response::HTTP_CREATED);
   }
+
   public function one($id)
   {
     return response()->json(Client::find($id));
@@ -31,6 +47,6 @@ class ClientsController
   public function destroy($id)
   {
     Client::find($id)->delete();
-    return response()->json(['message' => "success remove client: $id"]);
+    return response()->json([], Response::HTTP_NO_CONTENT);
   }
 }

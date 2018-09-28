@@ -20,6 +20,13 @@ Route::group(['prefix' => 'clients', 'namespace' => 'Api'], function () {
   Route::delete('/{id}', 'ClientsController@destroy');
 });
 
+Route::group(['prefix' => 'projects', 'namespace' => 'Api'], function () {
+  Route::get('/', 'ProjectsController@all');
+  Route::get('/{id}', 'ProjectsController@one');
+  Route::post('/{id}', 'ProjectsController@update');
+  Route::delete('/{id}', 'ProjectsController@destroy');
+});
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
   return $request->user();
 });
