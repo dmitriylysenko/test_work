@@ -20,4 +20,14 @@ class Client extends Model
     'password'
   ];
   protected $hidden = ['password'];
+
+  public static function new($firstName, $lastName, $email, $password): self
+  {
+    return static::create([
+      'first_name' => $firstName,
+      'last_name'  => $lastName,
+      'email'      => $email,
+      'password'   => $password
+    ]);
+  }
 }
